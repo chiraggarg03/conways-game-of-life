@@ -2,14 +2,16 @@ import pygame
 from random import randint
 from copy import deepcopy
 
-Size = 100
-Scale = 10
-done = False
-black = (0,0,0)
+# Global Variables
+Size = 100    # Controls size of display
+Scale = 10    # Controls size of box
+done = False    # Controls loop
+black = (0,0,0)    # PyGame Colour Tuples
 white = (255,255,255)
-Grid_Current = [[bool(randint(0, 1)) for _ in range(Size)] for _ in range(Size)]
+Grid_Current = [[bool(randint(0, 1)) for _ in range(Size)] for _ in range(Size)]    # Grid with random sections
 
 
+# Counts neighbours to a cell. Uses wrap around for cells at the edges
 def count_neighbours(x, y, grid):
     global Size
     neighbours = 0
@@ -22,6 +24,7 @@ def count_neighbours(x, y, grid):
     	return neighbours - 1
 
 
+# Returns the next state of the grid according the rules of the game
 def next_state(grid):
     global Size
     grid_next = deepcopy(grid)
@@ -40,6 +43,7 @@ def next_state(grid):
     return grid_next
 
 
+# Displays the grid given to it as a parameter
 def display_grid(grid):
 	global Size
 	global Scale
@@ -50,11 +54,13 @@ def display_grid(grid):
 				pygame.draw.rect(screen, white, pygame.Rect(i * Scale, j * Scale, Scale, Scale))
 
 
+# PyGame initialisation
 pygame.init()
 screen = pygame.display.set_mode((Size * Scale, Size * Scale))
 pygame.display.set_caption('Conway\'s Game of Life')
 clock = pygame.time.Clock()
 
+# Execution Loop
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
